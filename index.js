@@ -21,7 +21,11 @@ function displayResults(responseJson) {
         `<img src="${responseJson.message[i]}" class="results-img">`
       )
      }
-    console.log('images displayed')
+    
+    for (let i = 0; i < responseJson.message.length; i++) {
+      console.log(responseJson.message[i])
+    }
+
     //display the results section
     $('.results').removeClass('hidden');
     console.log('done??!?!')
