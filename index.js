@@ -1,30 +1,32 @@
 'use strict';
 
+
 //submit handler
-let requestedImages = ""
+let inputBreed = ""
 
 
 function getDogImage() {
-  let fetchAddress = `https://dog.ceo/api/breeds/image/random/${requestedImages}`
+  let fetchAddress = `https://dog.ceo/api/breed/${inputBreed}/images/random`
   fetch(fetchAddress)
     .then(response => response.json())
-    .then(responseJson =>     
-      displayResults(responseJson))
+    .then(responseJson => {
+      if (responseJson.code != 404) {
+      console.log(responseJson);   
+      displayResults(responseJson)
+    } else {
+      alert('Not a valid breed, please try again, woof!')
+    }
+  })
+    
     .catch(error => alert('Something went wrong. Try again later.'));
 }
 
 function displayResults(responseJson) {
     console.log(responseJson);
     //replace the existing image with the new one
-    for (let i = 0; i < responseJson.message.length; i++) {
       $('.results-img').append(
-        `<img src="${responseJson.message[i]}" class="results-img">`
+        `<img src="${responseJson.message}" class="results-img">`
       )
-     }
-    
-    for (let i = 0; i < responseJson.message.length; i++) {
-      console.log(responseJson.message[i])
-    }
 
     //display the results section
     $('.results').removeClass('hidden');
@@ -34,8 +36,8 @@ function displayResults(responseJson) {
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    requestedImages = document.getElementById("thing").value;
-    console.log(requestedImages);
+    inputBreed = document.getElementById("thing").value;
+    console.log(inputBreed);
     //$('.results').empty();
     $('.results-img').empty();
     getDogImage();
